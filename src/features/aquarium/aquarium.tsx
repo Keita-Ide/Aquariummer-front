@@ -102,7 +102,7 @@ const Aquarium: FC = () => {
               {aquariumData?.aquariumName}
             </Typography>
             <Stack direction="row" justifyContent="center" spacing={1}>
-              <Grid margin="auto">
+              <Grid>
                 <Chip label={aquariumData?.aquariumWater} />
                 <Chip label={aquariumData?.aquariumSize} />
                 <Chip label={aquariumData?.aquariumWaterSize} />
