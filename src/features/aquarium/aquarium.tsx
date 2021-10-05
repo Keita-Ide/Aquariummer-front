@@ -8,7 +8,7 @@ import { CardActionArea } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Grid from "@material-ui/core/Grid";
 import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
+import samplePicture from "../../images/samplePicture.jpg";
 
 type AquariumValue = {
   aquariumName: string;
@@ -94,20 +94,22 @@ const Aquarium: FC = () => {
           <CardMedia
             component="img"
             height="140"
-            image="/static/images/cards/contemplative-reptile.jpg"
+            image={samplePicture}
             alt="aquarium picture"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {aquariumData?.aquariumName}
             </Typography>
-            <Stack direction="row" justifyContent="center" spacing={1}>
+            <Grid container direction="row" justifyContent="center" spacing={1}>
               <Grid>
                 <Chip label={aquariumData?.aquariumWater} />
-                <Chip label={aquariumData?.aquariumSize} />
-                <Chip label={aquariumData?.aquariumWaterSize} />
+                <Chip label={aquariumData?.aquariumSize + "cm水槽"} />
+                <Chip label={aquariumData?.aquariumWaterSize + "L"} />
                 <Chip label={aquariumData?.fishNamesNumbers[0]?.fishName} />
-                <Chip label={aquariumData?.fishNamesNumbers[0]?.fishNumber} />
+                <Chip
+                  label={aquariumData?.fishNamesNumbers[0]?.fishNumber + "匹"}
+                />
                 <Chip label={aquariumData?.aquariumEquipment?.heater} />
                 <Chip label={aquariumData?.aquariumEquipment?.filter} />
                 <Chip label={aquariumData?.aquariumEquipment?.soil} />
@@ -116,7 +118,7 @@ const Aquarium: FC = () => {
                 <Chip label={aquariumData?.aquariumEquipment?.feeding} />
                 <Chip label={aquariumData?.aquariumEquipment?.chemical} />
               </Grid>
-            </Stack>
+            </Grid>
           </CardContent>
         </CardActionArea>
       </Card>
