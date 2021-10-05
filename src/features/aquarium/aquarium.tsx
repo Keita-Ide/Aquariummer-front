@@ -82,7 +82,7 @@ const Aquarium: FC = () => {
           }}
           severity="success"
         >
-          This is a success alert — check it out!
+          TIt's under development! Have fun!
         </Alert>
       )}
       <Card sx={{ maxWidth: 345 }}>
