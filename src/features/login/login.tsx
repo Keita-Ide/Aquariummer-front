@@ -13,22 +13,28 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Login: FC = () => {
   return (
-    <Grid container spacing={2} justifyContent="center">
+    <Grid container spacing={2} marginTop={5} justifyContent="center">
       <Grid item xs={6}>
         <Box
           sx={{
-            p: 2,
             bgcolor: "background.default",
             display: "grid",
             gridTemplateColumns: { md: "1fr 1fr" },
             gap: 2,
           }}
         >
-          {[0, 1, 2, 3, 4, 6, 8, 12, 16, 24].map((elevation) => (
-            <Item key={elevation} elevation={elevation}>
-              {`elevation=${elevation}`}
-            </Item>
-          ))}
+          <Grid item xs={4}>
+            <Item>Firstname</Item>
+          </Grid>
+          <Grid item xs={4}>
+            <Item>middlename</Item>
+          </Grid>
+          <Grid item xs={4}>
+            <Item>lastname</Item>
+          </Grid>
+          <Grid item xs={12}>
+            <Item>plan</Item>
+          </Grid>
         </Box>
       </Grid>
     </Grid>
