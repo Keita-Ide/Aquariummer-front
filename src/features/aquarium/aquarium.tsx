@@ -60,7 +60,6 @@ const Aquarium: FC = () => {
   const [aquariumData, setAquariumData] = useState<AquariumValue>(InitialState);
   const [alertFlug, setAlertFlug] = useState(false);
 
-  // 不要なレンダリングを避ける
   useEffect(() => {
     const URL = "http://localhost:8080/api/aquariummer/";
     const aquariumInit = {
@@ -86,7 +85,7 @@ const Aquarium: FC = () => {
           }}
           severity="success"
         >
-          TIt's under development! Have fun!
+          It's under development! Have fun!
         </Alert>
       )}
       <Grid container direction="row" justifyContent="flex-start" spacing={1}>
@@ -94,6 +93,7 @@ const Aquarium: FC = () => {
           <Card sx={{ maxWidth: 345, m: 1 }} key={index}>
             <CardActionArea
               onClick={() => {
+                // Transit to Aquarium-Detail-Screen. It doesn't exist now, so I temporally show aleart.
                 setAlertFlug(true);
               }}
             >
