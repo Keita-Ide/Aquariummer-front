@@ -1,4 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
+import { styled, useTheme } from "@mui/material/styles";
 import fetch from "node-fetch";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,6 +9,16 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Modal from "@mui/material/Modal";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 
 const style = {
   position: "absolute" as "absolute",
@@ -36,10 +47,25 @@ const InitialState: HeaderValue = {
 };
 
 const Header: FC = () => {
+  const theme = useTheme();
   const [headerData, setHeaderData] = useState<HeaderValue>(InitialState);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [myAccountOpen, setMyAccountOpen] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
+  const handleOpen = () => setMyAccountOpen(true);
+  const handleClose = () => setMyAccountOpen(false);
+  const handleMenuOpen = () => setMenuOpen(true);
+  const handleMenuClose = () => setMenuOpen(false);
+
+  const drawerWidth = 240;
+  const DrawerHeader = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
+  }));
 
   useEffect(() => {
     const URL = "http://localhost:8080/api/aquariummer/getMyAccount";
@@ -65,6 +91,51 @@ const Header: FC = () => {
 
   return (
     <>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={menuOpen}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleMenuClose}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {["All mail", "Trash", "Spam"].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
@@ -74,6 +145,7 @@ const Header: FC = () => {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
+              onClick={handleMenuOpen}
             >
               <MenuIcon />
             </IconButton>
@@ -87,7 +159,7 @@ const Header: FC = () => {
         </AppBar>
       </Box>
       <Modal
-        open={open}
+        open={myAccountOpen}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
