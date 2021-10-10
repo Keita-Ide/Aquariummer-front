@@ -85,7 +85,7 @@ const Aquarium: FC = () => {
           }}
           severity="success"
         >
-          It's under development! Have fun!
+          It's under development! Have fun! Branch organized!
         </Alert>
       )}
       <Grid container direction="row" justifyContent="flex-start" spacing={1}>
