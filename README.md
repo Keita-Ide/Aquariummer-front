@@ -4,6 +4,8 @@ Aquariummer helps to manage the fish you feed!
 
 ## Features
 
+![You can manage your Aquarium like this](Aquariumer_home "HomeScreen")
+
 ## Usage
 
 ## Installation
