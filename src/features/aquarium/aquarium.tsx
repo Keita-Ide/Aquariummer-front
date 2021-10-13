@@ -1,4 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import fetch from "node-fetch";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -59,6 +60,11 @@ const InitialState: AquariumValue = [
 const Aquarium: FC = () => {
   const [aquariumData, setAquariumData] = useState<AquariumValue>(InitialState);
   const [alertFlug, setAlertFlug] = useState(false);
+  let history = useHistory();
+
+  function handleClickCard() {
+    history.push("/aquariumDetail");
+  }
 
   useEffect(() => {
     const URL = "http://localhost:8080/api/aquariummer/";
@@ -85,7 +91,7 @@ const Aquarium: FC = () => {
           }}
           severity="success"
         >
-          It's under development! Have fun!
+          It's under development! Have fun! Branch organized!
         </Alert>
       )}
       <Grid container direction="row" justifyContent="flex-start" spacing={1}>
@@ -95,6 +101,7 @@ const Aquarium: FC = () => {
               onClick={() => {
                 // Transit to Aquarium-Detail-Screen. It doesn't exist now, so I temporally show aleart.
                 setAlertFlug(true);
+                handleClickCard();
               }}
             >
               <CardMedia
