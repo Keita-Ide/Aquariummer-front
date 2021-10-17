@@ -61,7 +61,7 @@ const aquariumDetail: React.FC = () => {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   React.useEffect(() => {
-    const URL = "http://localhost:8080/api/aquariummer/aquarium";
+    const URL = "http://localhost:8080/api/aquariummer/getAquarium";
     const aquariumInit = {
       method: "POST",
       mode: "cors",
@@ -71,14 +71,14 @@ const aquariumDetail: React.FC = () => {
       },
     };
 
-    // BE開発後コメントアウト解除
-    // fetch(URL, aquariumInit)
-    //   .then((res) => res.json())
-    //   .then((json) => {
-    //     // setValues(JSON.parse(JSON.stringify(json)));
-    //     console.log(JSON.parse(JSON.stringify(json)));
-    //   });
-  }, [values]);
+    fetch(URL, aquariumInit)
+      .then((res) => res.json())
+      .then((json) => {
+        setValues(JSON.parse(JSON.stringify(json)));
+        console.log(JSON.parse(JSON.stringify(json)));
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -129,7 +129,7 @@ const aquariumDetail: React.FC = () => {
             </Grid>
             <Grid container item columnGap={3}>
               <Grid item xs={5}>
-                <InputLabel>水槽サイズ</InputLabel>
+                <InputLabel>水槽サイズ(cm)</InputLabel>
                 <TextField
                   fullWidth
                   required
@@ -139,7 +139,7 @@ const aquariumDetail: React.FC = () => {
                 />
               </Grid>
               <Grid item xs={5}>
-                <InputLabel>水槽の容量</InputLabel>
+                <InputLabel>水槽の容量(L)</InputLabel>
                 <TextField
                   fullWidth
                   required
@@ -161,7 +161,7 @@ const aquariumDetail: React.FC = () => {
                 />
               </Grid>
               <Grid item xs={5}>
-                <InputLabel>魚数</InputLabel>
+                <InputLabel>魚数(匹)</InputLabel>
                 <TextField
                   fullWidth
                   required
