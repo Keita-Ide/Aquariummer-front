@@ -32,23 +32,35 @@ const style = {
   p: 4,
 };
 
-type HeaderValue = {
-  accountId: string;
-  firstName: string;
-  lastName: string;
-  chargePlan: string;
+// type HeaderValue = {
+//   accountId: string;
+//   firstName: string;
+//   lastName: string;
+//   chargePlan: string;
+// };
+
+// const InitialState: HeaderValue = {
+//   accountId: "1000",
+//   firstName: "井手",
+//   lastName: "啓太",
+//   chargePlan: "ペンギンプラン",
+// };
+
+type HeaderSampleValue = {
+  companyId: number;
+  companyName: string;
 };
 
-const InitialState: HeaderValue = {
-  accountId: "1000",
-  firstName: "井手",
-  lastName: "啓太",
-  chargePlan: "ペンギンプラン",
+const InitialSampleState: HeaderSampleValue = {
+  companyId: 1000,
+  companyName: "井手株式会社",
 };
 
 const Header: FC = () => {
   const theme = useTheme();
-  const [headerData, setHeaderData] = useState<HeaderValue>(InitialState);
+  // const [headerData, setHeaderData] = useState<HeaderValue>(InitialState);
+  const [headerSampleData, setHeaderSampleData] =
+    useState<HeaderSampleValue>(InitialSampleState);
   const [myAccountOpen, setMyAccountOpen] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
@@ -68,10 +80,10 @@ const Header: FC = () => {
   }));
 
   useEffect(() => {
-    const URL = "http://localhost:8080/api/aquariummer/getMyAccount";
+    const URL = "http://localhost:8080/api/aquariummer/user/getCompany";
     const data = [
       {
-        accountId: "100000111",
+        accountId: 1,
       },
     ];
     const aquariumInit = {
@@ -84,7 +96,8 @@ const Header: FC = () => {
     fetch(URL, aquariumInit)
       .then((res) => res.json())
       .then((json) => {
-        setHeaderData(JSON.parse(JSON.stringify(json)));
+        // setHeaderData(JSON.parse(JSON.stringify(json)));
+        setHeaderSampleData(JSON.parse(JSON.stringify(json)));
         console.log(JSON.parse(JSON.stringify(json)));
       });
   }, []);
@@ -169,10 +182,8 @@ const Header: FC = () => {
             Text in a modal
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {headerData?.accountId}
-            {headerData?.firstName}
-            {headerData?.lastName}
-            {headerData?.chargePlan}
+            {headerSampleData?.companyId}
+            {headerSampleData?.companyName}
           </Typography>
         </Box>
       </Modal>
