@@ -13,6 +13,7 @@ import samplePicture from "../../images/samplePicture.jpg";
 
 type AquariumValue = [
   {
+    aquariumId: number;
     aquariumName: string;
     aquariumWater: string;
     aquariumSize: string;
@@ -36,6 +37,7 @@ type AquariumValue = [
 
 const InitialState: AquariumValue = [
   {
+    aquariumId: 1,
     aquariumName: "未設定",
     aquariumWater: "未設定",
     aquariumSize: "未設定",
@@ -62,8 +64,11 @@ const Aquarium: FC = () => {
   const [alertFlug, setAlertFlug] = useState(false);
   let history = useHistory();
 
-  function handleClickCard() {
-    history.push("/aquariumDetail");
+  function handleClickCard(params: any) {
+    history.push({
+      pathname: "/aquariumDetail",
+      state: { aquariumId: params },
+    });
   }
 
   useEffect(() => {
@@ -74,12 +79,12 @@ const Aquarium: FC = () => {
       cache: "default",
     };
 
-    fetch(URL, aquariumInit)
-      .then((res) => res.json())
-      .then((json) => {
-        setAquariumData(JSON.parse(JSON.stringify(json)));
-        console.log(JSON.parse(JSON.stringify(json)));
-      });
+    // fetch(URL, aquariumInit)
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     setAquariumData(JSON.parse(JSON.stringify(json)));
+    //     console.log(JSON.parse(JSON.stringify(json)));
+    //   });
   }, []);
 
   return (
@@ -101,7 +106,7 @@ const Aquarium: FC = () => {
               onClick={() => {
                 // Transit to Aquarium-Detail-Screen. It doesn't exist now, so I temporally show aleart.
                 setAlertFlug(true);
-                handleClickCard();
+                handleClickCard(aquariumData?.aquariumId);
               }}
             >
               <CardMedia
