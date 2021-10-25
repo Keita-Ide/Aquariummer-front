@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import fetch from "node-fetch";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -8,52 +9,122 @@ import TextField from "@mui/material/TextField";
 import samplePicture from "../../images/samplePicture.jpg";
 
 type AquariumDetailValue = {
-  aquariumId: string;
+  accountId: number;
+  aquariumId: number;
   aquariumName: string;
-  aquariumWater: string;
-  aquariumSize: string;
+  aquariumWaterType: string;
   aquariumWaterSize: string;
-  fishNamesNumbers: [
+  aquariumSize: number;
+  filterBodyId: string;
+  filterBodyName: string;
+  filterMediumId: number;
+  filterMediumName: string;
+  soilId: number;
+  soilName: string;
+  heaterId: number;
+  heaterName: string;
+  coolerId: number;
+  coolerName: string;
+  lightId: number;
+  lightName: string;
+  waterTemplatureGaugeId: number;
+  waterTemplatureGaugeNmae: string;
+  aerationId: number;
+  aerationName: string;
+  circurationpumpId: number;
+  circurationpumpName: string;
+  aquariumFish: [
     {
+      fishId: number;
       fishName: string;
+      fishScientificName: string;
       fishNumber: number;
     }
   ];
-  aquariumEquipment: {
-    heater: string;
-    filter: string;
-    soil: string;
-    sand: string;
-    feeding: string;
-    chemical: string;
-  };
+  aquariumPlant: [
+    {
+      plantId: number;
+      plantName: string;
+      plantScientificName: string;
+      plantNumber: number;
+    }
+  ];
+  aquariumEquipment: [
+    {
+      equipmentId: number;
+      equipmentName: string;
+    }
+  ];
+  aquariumChemical: [
+    {
+      chemicalId: number;
+      chemicalName: string;
+    }
+  ];
 };
 
-const InitialState: AquariumDetailValue = {
-  aquariumId: "未設定",
-  aquariumName: "未設定",
-  aquariumWater: "未設定",
-  aquariumSize: "未設定",
-  aquariumWaterSize: "未設定",
-  fishNamesNumbers: [
+const initialState: AquariumDetailValue = {
+  accountId: 1,
+  aquariumId: 1,
+  aquariumName: "",
+  aquariumWaterType: "",
+  aquariumWaterSize: "",
+  aquariumSize: 0,
+  filterBodyId: "",
+  filterBodyName: "",
+  filterMediumId: 0,
+  filterMediumName: "",
+  soilId: 0,
+  soilName: "",
+  heaterId: 0,
+  heaterName: "",
+  coolerId: 0,
+  coolerName: "",
+  lightId: 0,
+  lightName: "",
+  waterTemplatureGaugeId: 0,
+  waterTemplatureGaugeNmae: "",
+  aerationId: 0,
+  aerationName: "",
+  circurationpumpId: 0,
+  circurationpumpName: "",
+  aquariumFish: [
     {
-      fishName: "未設定",
+      fishId: 0,
+      fishName: "",
+      fishScientificName: "",
       fishNumber: 0,
     },
   ],
-  aquariumEquipment: {
-    heater: "未設定",
-    filter: "未設定",
-    soil: "未設定",
-    sand: "未設定",
-    feeding: "未設定",
-    chemical: "未設定",
-  },
+  aquariumPlant: [
+    {
+      plantId: 0,
+      plantName: "",
+      plantScientificName: "",
+      plantNumber: 0,
+    },
+  ],
+  aquariumEquipment: [
+    {
+      equipmentId: 0,
+      equipmentName: "",
+    },
+  ],
+  aquariumChemical: [
+    {
+      chemicalId: 0,
+      chemicalName: "",
+    },
+  ],
 };
 
 const aquariumDetail: React.FC = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [values, setValues] = React.useState<AquariumDetailValue>(InitialState);
+  const location = useLocation();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [resultSet] = React.useState<any>(location.state);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [values, setValues] = React.useState<AquariumDetailValue>(initialState);
   const handleChangeText =
     (prop: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({ ...values, [prop]: event.target.value });
@@ -62,13 +133,18 @@ const aquariumDetail: React.FC = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   React.useEffect(() => {
     const URL = "http://localhost:8080/api/aquariummer/getAquarium";
+    const requestParams = {
+      aquariumId: resultSet.aquariumId,
+    };
+    console.log(resultSet);
     const aquariumInit = {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       mode: "cors",
       cache: "default",
-      params: {
-        aquariumId: values.aquariumId,
-      },
+      body: JSON.stringify(requestParams),
     };
 
     fetch(URL, aquariumInit)
@@ -78,7 +154,7 @@ const aquariumDetail: React.FC = () => {
         console.log(JSON.parse(JSON.stringify(json)));
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [resultSet]);
 
   return (
     <>
@@ -121,9 +197,9 @@ const aquariumDetail: React.FC = () => {
                 <TextField
                   fullWidth
                   required
-                  id="aquariumWater"
-                  value={values?.aquariumWater}
-                  onChange={handleChangeText("aquariumWater")}
+                  id="aquariumWaterType"
+                  value={values?.aquariumWaterType}
+                  onChange={handleChangeText("aquariumWaterType")}
                 />
               </Grid>
             </Grid>
@@ -155,9 +231,9 @@ const aquariumDetail: React.FC = () => {
                 <TextField
                   fullWidth
                   required
-                  id="fishNamesKinds"
-                  value={values?.fishNamesNumbers[0].fishName}
-                  onChange={handleChangeText("fishNamesKinds")}
+                  id="aquariumFish"
+                  value={values?.aquariumFish[0].fishName}
+                  onChange={handleChangeText("aquariumFish")}
                 />
               </Grid>
               <Grid item xs={5}>
@@ -165,9 +241,9 @@ const aquariumDetail: React.FC = () => {
                 <TextField
                   fullWidth
                   required
-                  id="fishNamesNumbers"
-                  value={values?.fishNamesNumbers[0].fishNumber}
-                  onChange={handleChangeText("fishNamesNumbers")}
+                  id="aquariumFish"
+                  value={values?.aquariumFish[0].fishNumber}
+                  onChange={handleChangeText("aquariumFish")}
                 />
               </Grid>
             </Grid>
@@ -177,9 +253,9 @@ const aquariumDetail: React.FC = () => {
                 <TextField
                   fullWidth
                   required
-                  id="heater"
-                  value={values?.aquariumEquipment.heater}
-                  onChange={handleChangeText("aquariumEquipment")}
+                  id="heaterName"
+                  value={values?.heaterName}
+                  onChange={handleChangeText("heaterName")}
                 />
               </Grid>
               <Grid item xs={5}>
@@ -187,9 +263,9 @@ const aquariumDetail: React.FC = () => {
                 <TextField
                   fullWidth
                   required
-                  id="filter"
-                  value={values?.aquariumEquipment.filter}
-                  onChange={handleChangeText("filter")}
+                  id="filterBodyName"
+                  value={values?.filterBodyName}
+                  onChange={handleChangeText("filterBodyName")}
                 />
               </Grid>
             </Grid>
@@ -199,9 +275,9 @@ const aquariumDetail: React.FC = () => {
                 <TextField
                   fullWidth
                   required
-                  id="soil"
-                  value={values?.aquariumEquipment.soil}
-                  onChange={handleChangeText("soil")}
+                  id="soilName"
+                  value={values?.soilName}
+                  onChange={handleChangeText("soilName")}
                 />
               </Grid>
               <Grid item xs={5}>
@@ -209,31 +285,31 @@ const aquariumDetail: React.FC = () => {
                 <TextField
                   fullWidth
                   required
-                  id="sand"
-                  value={values?.aquariumEquipment.sand}
-                  onChange={handleChangeText("sand")}
+                  id="soilName"
+                  value={values?.soilName}
+                  onChange={handleChangeText("soilName")}
                 />
               </Grid>
             </Grid>
             <Grid container item columnGap={3}>
               <Grid item xs={5}>
-                <InputLabel>飼料</InputLabel>
+                <InputLabel>エアレーション</InputLabel>
                 <TextField
                   fullWidth
                   required
-                  id="feeding"
-                  value={values?.aquariumEquipment.feeding}
-                  onChange={handleChangeText("feeding")}
+                  id="aerationName"
+                  value={values?.aerationName}
+                  onChange={handleChangeText("aerationName")}
                 />
               </Grid>
               <Grid item xs={5}>
-                <InputLabel>薬品</InputLabel>
+                <InputLabel>循環装置</InputLabel>
                 <TextField
                   fullWidth
                   required
-                  id="chemical"
-                  value={values?.aquariumEquipment.chemical}
-                  onChange={handleChangeText("chemical")}
+                  id="circurationpumpName"
+                  value={values?.circurationpumpName}
+                  onChange={handleChangeText("circurationpumpName")}
                 />
               </Grid>
             </Grid>

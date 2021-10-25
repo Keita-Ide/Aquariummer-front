@@ -81,13 +81,14 @@ const Header: FC = () => {
 
   useEffect(() => {
     const URL = "http://localhost:8080/api/aquariummer/user/getCompany";
-    const data = [
-      {
-        accountId: 1,
-      },
-    ];
+    const data = {
+      accountId: "1",
+    };
     const aquariumInit = {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       mode: "cors",
       cache: "default",
       body: JSON.stringify(data),
