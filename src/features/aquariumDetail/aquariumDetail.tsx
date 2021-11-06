@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import * as React from "react";
 import { useLocation } from "react-router-dom";
 import fetch from "node-fetch";
@@ -119,24 +120,21 @@ const initialState: AquariumDetailValue = {
 };
 
 const aquariumDetail: React.FC = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const location = useLocation();
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [resultSet] = React.useState<any>(location.state);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [values, setValues] = React.useState<AquariumDetailValue>(initialState);
   const handleChangeText =
     (prop: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({ ...values, [prop]: event.target.value });
     };
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   React.useEffect(() => {
+    console.log("History参照用がよばれました");
+    // History参照用
     const URL = "http://localhost:8080/api/aquariummer/getAquarium";
     const requestParams = {
-      aquariumId: resultSet.aquariumId,
+      aquariumId: resultSet.aquariumId || 0,
     };
-    console.log(resultSet);
     const aquariumInit = {
       method: "POST",
       headers: {
@@ -153,8 +151,62 @@ const aquariumDetail: React.FC = () => {
         setValues(JSON.parse(JSON.stringify(json)));
         console.log(JSON.parse(JSON.stringify(json)));
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resultSet]);
+
+  React.useEffect(() => {
+    console.log("AquariumDetail更新用がよばれました");
+    // AquariumDetail更新用
+    const URL = "http://localhost:8080/api/aquariummer/updateAquariumDetail";
+    const requestParams = {
+      accountId: values.accountId,
+      aquariumId: values.aquariumId,
+      aquariumWaterType: values.aquariumWaterType,
+      aquariumWaterSize: values.aquariumWaterSize,
+      aquariumSize: values.aquariumSize,
+      filterBodyId: values.filterBodyId,
+      filterMediumId: values.filterMediumId,
+      soilId: values.soilId,
+      heaterId: values.heaterId,
+      coolerId: values.coolerId,
+      lightId: values.lightId,
+      waterTemplatureGaugeId: values.waterTemplatureGaugeId,
+      aerationId: values.aerationId,
+      circurationpumpId: values.circurationpumpId,
+      aquariumFish: [
+        {
+          fishId: 0,
+          fishNumber: 0,
+        },
+      ],
+      aquariumPlant: [
+        {
+          plantId: 0,
+          plantNumber: 0,
+        },
+      ],
+      aquariumEquipment: [
+        {
+          equipmentId: 0,
+        },
+      ],
+      aquariumChemical: [
+        {
+          chemicalId: 0,
+        },
+      ],
+    };
+    const fetchParams = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: "cors",
+      cache: "default",
+      body: JSON.stringify(requestParams),
+    };
+
+    // fetch(URL, fetchParams);
+  }, [values]);
 
   return (
     <>

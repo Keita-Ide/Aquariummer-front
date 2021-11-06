@@ -79,12 +79,12 @@ const Aquarium: FC = () => {
       cache: "default",
     };
 
-    // fetch(URL, aquariumInit)
-    //   .then((res) => res.json())
-    //   .then((json) => {
-    //     setAquariumData(JSON.parse(JSON.stringify(json)));
-    //     console.log(JSON.parse(JSON.stringify(json)));
-    //   });
+    fetch(URL, aquariumInit)
+      .then((res) => res.json())
+      .then((json) => {
+        setAquariumData(JSON.parse(JSON.stringify(json)));
+        console.log(JSON.parse(JSON.stringify(json)));
+      });
   }, []);
 
   return (
@@ -104,7 +104,6 @@ const Aquarium: FC = () => {
           <Card sx={{ maxWidth: 345, m: 1 }} key={index}>
             <CardActionArea
               onClick={() => {
-                // Transit to Aquarium-Detail-Screen. It doesn't exist now, so I temporally show aleart.
                 setAlertFlug(true);
                 handleClickCard(aquariumData?.aquariumId);
               }}
