@@ -94,13 +94,13 @@ const Header: FC = () => {
       body: JSON.stringify(data),
     };
 
-    fetch(URL, aquariumInit)
-      .then((res) => res.json())
-      .then((json) => {
-        // setHeaderData(JSON.parse(JSON.stringify(json)));
-        setHeaderSampleData(JSON.parse(JSON.stringify(json)));
-        console.log(JSON.parse(JSON.stringify(json)));
-      });
+    // fetch(URL, aquariumInit)
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     // setHeaderData(JSON.parse(JSON.stringify(json)));
+    //     // setHeaderSampleData(JSON.parse(JSON.stringify(json)));
+    //     console.log(JSON.parse(JSON.stringify(json)));
+    //   });
   }, []);
 
   return (

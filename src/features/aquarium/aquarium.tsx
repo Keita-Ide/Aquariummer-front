@@ -79,12 +79,12 @@ const Aquarium: FC = () => {
       cache: "default",
     };
 
-    fetch(URL, aquariumInit)
-      .then((res) => res.json())
-      .then((json) => {
-        setAquariumData(JSON.parse(JSON.stringify(json)));
-        console.log(JSON.parse(JSON.stringify(json)));
-      });
+    // fetch(URL, aquariumInit)
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     // setAquariumData(JSON.parse(JSON.stringify(json)));
+    //     console.log(JSON.parse(JSON.stringify(json)));
+    //   });
   }, []);
 
   return (

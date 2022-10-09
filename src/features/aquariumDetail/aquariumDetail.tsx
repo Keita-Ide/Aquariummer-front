@@ -133,7 +133,7 @@ const aquariumDetail: React.FC = () => {
     // History参照用
     const URL = "http://localhost:8080/api/aquariummer/getAquarium";
     const requestParams = {
-      aquariumId: resultSet.aquariumId || 0,
+      aquariumId: resultSet.aquariumId,
     };
     const aquariumInit = {
       method: "POST",
@@ -145,12 +145,12 @@ const aquariumDetail: React.FC = () => {
       body: JSON.stringify(requestParams),
     };
 
-    fetch(URL, aquariumInit)
-      .then((res) => res.json())
-      .then((json) => {
-        setValues(JSON.parse(JSON.stringify(json)));
-        console.log(JSON.parse(JSON.stringify(json)));
-      });
+    // fetch(URL, aquariumInit)
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     setValues(JSON.parse(JSON.stringify(json)));
+    //     console.log(JSON.parse(JSON.stringify(json)));
+    //   });
   }, [resultSet]);
 
   React.useEffect(() => {
